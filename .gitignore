@@ -1,0 +1,23 @@
+node_modules/
+data/
+*.log
+.tools/
+.e2e/
+release/
+www/private/data/
+www/flash/
+www/ruffle/
+www/pages/
+www/private/dist/
+
+# Downloaded sources and generated license bundle
+/upstream/
+/.flash-src/
+/www/licenses/
+
+# Installation secrets and private backups
+/www/private/settings.local.php
+.env
+.env.*
+*.bak
+*.backup

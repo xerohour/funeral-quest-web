@@ -1,0 +1,10 @@
+Options -Indexes
+DirectoryIndex index.html
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^private(/|$) - [F,L]
+RewriteRule (^|/)request\.xp$ index.php [L,QSA]
+RewriteRule ^pages/(server|rankings)\.htm$ index.php [L,QSA]
+RewriteRule ^home\.html$ index.html [L]
+</IfModule>

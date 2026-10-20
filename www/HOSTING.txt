@@ -1,0 +1,96 @@
+FUNERAL QUEST FOR PHP / CPANEL
+
+Live demo: https://fq.usefulinternetco.com/
+Original source: https://github.com/SethRobinson/FuneralQuest
+
+This folder is the PHP deployment. The host needs PHP 8.1+ with JSON, iconv,
+password hashing, and file locking, Apache with mod_rewrite and .htaccess
+support, HTTPS, and a writable private/data/ directory. No database, Composer,
+or Node server is needed on the host.
+
+PREPARE ON YOUR COMPUTER
+From the project root, with the documented upstream checkout present:
+  npm ci
+  npm run build:cpanel
+
+The README pins the original source revision and explains how to obtain it.
+The build supplies flash/, ruffle/, pages/, licenses/, and private/dist/.
+Those generated directories are absent from a source-only GitHub download.
+
+INSTALL
+1. Use a dedicated domain or subdomain. The game expects paths at /, rather
+   than inside a subfolder such as /games/fq/.
+2. Copy private/settings.local.example.php to private/settings.local.php.
+   Set your timezone and a unique admin_password of at least 10 characters.
+   This private file overrides the shared defaults in private/settings.php.
+   admin_email is public on the Server Settings page if you fill it in.
+3. Upload the CONTENTS of this folder into the domain's document root.
+   Include both .htaccess files; enable Show Hidden Files in File Manager.
+   Keep the repository, upstream checkout, and node_modules out of the web root.
+4. Select PHP 8.1+ for the domain and enable HTTPS/AutoSSL.
+5. Ensure PHP can create/write private/data/. Use the host's normal ownership
+   and permissions; do not make the whole site world-writable.
+6. Check that /private/ and /private/settings.php return HTTP 403 Forbidden.
+   If they do not, fix .htaccess access restrictions before creating accounts.
+7. Open the domain to play and /admin.php for the operator page.
+
+CRON
+Run this every 15 minutes in cPanel Cron Jobs (replace both paths):
+  */15 * * * * /usr/local/bin/php /home/ACCOUNT/public_html/cron.php
+
+Use your host's PHP 8.1+ CLI executable. The game also rolls the day during
+player requests. Cron handles quiet nights, on its first run after midnight
+in the configured timezone. /cron.php returns 404 in a browser by design.
+
+ADMIN LOGIN
+In cPanel File Manager, open the game's document root, then
+private/settings.local.php. If absent, copy private/settings.local.example.php
+to that name. Set admin_password to your own password of at least 10
+characters and save. There is no default operator password.
+
+Visit https://YOUR-DOMAIN/admin.php, enter the password in "Operator password",
+and click "Log on". No username is required. Player accounts and cPanel
+credentials are separate. For local preview use http://127.0.0.1:8091/admin.php.
+If you forget the password, replace admin_password through cPanel and save.
+A changed password invalidates old operator sessions. Five wrong attempts
+from one IP temporarily block login for up to ten minutes.
+
+The operator page manages players, bans, logs, and maintenance. It does not
+currently have a server-settings editor. Change timezone, daily turns, town
+limits, tournament mode, server news, and other server-wide rules by editing
+private/settings.local.php in cPanel File Manager. Keep your overrides inside
+its existing return array and save; PHP loads them on the next request.
+Daily rules take effect at their corresponding game action or daily refresh.
+The game's "Server Settings" link is a public read-only page, not an editor.
+
+CONFIGURATION
+See private/settings.php for all documented defaults. Override values in
+private/settings.local.php. The default ip_check permits one player per IP
+per day; disable it for shared addresses or mark a player Always allowed on.
+Tournament mode deliberately resets the town on its configured schedule.
+
+DATA, UPDATES, AND BACKUPS
+Back up ALL of private/data/ and private/settings.local.php privately.
+Pause game requests and cron while taking/restoring a consistent backup.
+Preserve both when uploading updates; do not delete server-only files during
+sync. Never publish live data, local passwords, sessions, or backup archives.
+An upload release should omit private/data/, private/settings.local.php,
+router.php, and private/selftest.php. Keep the shared defaults and example.
+
+TROUBLESHOOTING
+Blank stage: check flash/ and all Ruffle .js/.wasm files were uploaded.
+Missing events: check private/dist/ and its script/ directory.
+Login returns HTML/404: check mod_rewrite and the top-level .htaccess.
+PHP 500: check the host's PHP error log, PHP version, iconv, configuration
+syntax, disk space, and data-directory permissions.
+Day does not roll: check timezone, cron path, and CLI PHP version.
+
+Full installation, backup, source comparison, and developer guides are in
+the repository's README.md and docs/ directory.
+
+CREDITS
+This product includes software written by Seth A. Robinson ( www.rtsoft.com ).
+Art by Akiko Robinson. Funeral Quest is copyright 2001 Robinson Technologies.
+The original source uses the Proton SDK license; see licenses/. The author's
+README releases the artwork with credit; music and sounds are licensed only
+for Funeral Quest. Ruffle has its own included MIT/Apache-2.0 license texts.

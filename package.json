@@ -1,0 +1,17 @@
+{
+  "name": "funeral-quest-browser",
+  "private": true,
+  "type": "module",
+  "description": "Funeral Quest for PHP/cPanel: original Flash client through Ruffle, PHP game server, and browser operator controls.",
+  "scripts": {
+    "start": "node server/index.js",
+    "test": "node server/selftest.js",
+    "build:cpanel": "node tools/pack-cpanel.mjs",
+    "test:php": "php www/private/selftest.php",
+    "test:router": "node tools/php-router-smoke.mjs",
+    "dev:php": "php -S 127.0.0.1:8091 -t www www/router.php"
+  },
+  "dependencies": {
+    "@ruffle-rs/ruffle": "^0.2.0"
+  }
+}

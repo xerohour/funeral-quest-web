@@ -1,0 +1,16 @@
+export const PARLOR_ACTIONS = [
+  { command: 2, label: "Wait for a customer" },
+  { command: 5, label: "News" },
+  { command: 9, label: "Rankings" },
+  { command: 12, label: "Town map" },
+  { command: 13, label: "Yang's" },
+  { command: 40, label: "Di-Mart" },
+  { command: 39, label: "Bank" },
+  { command: 37, label: "Hospital" },
+  { command: 34, label: "Church" },
+  { command: 36, label: "Spirit U" },
+  { command: 22, label: "Bar" },
+  { command: 3, label: "Parlor stats" },
+  { command: 4, label: "Back to desk" },
+  { command: 1, label: "Log off" },
+];
